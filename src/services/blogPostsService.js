@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const Operator = require('sequelize').Op;
 const jwt = require('../helpers/jwt');
 const config = require('../database/config/config');
 
@@ -75,10 +76,30 @@ const destroy = async ({ id, token }) => {
   await BlogPost.destroy({ where: { id } });
 };
 
+const findByQuery = async (query) => {
+  const blogPostsByTitle = await BlogPost
+    .findAll({
+      where: { title: { [Operator.like]: query } },
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories' }],
+      });
+  if (blogPostsByTitle.length) return blogPostsByTitle;
+  const blogPostsByContent = await BlogPost
+    .findAll({
+      where: { content: { [Operator.like]: query } },
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories' }],
+      });
+  return blogPostsByContent;
+};
+
 module.exports = {
   create,
   findAll,
   findByPk,
   update,
   destroy,
+  findByQuery,
 };

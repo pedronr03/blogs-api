@@ -6,6 +6,8 @@ const authToken = require('../middlewares/authToken');
 
 const route = Router();
 
+route.get('/search', authToken, blogPostsController.findByQuery);
+
 route.get('/:id', authToken, blogPostsController.findByPk);
 
 route.put('/:id', authToken, authUpdatePost, blogPostsController.update);

@@ -33,10 +33,18 @@ const destroy = async (req, res) => {
   return res.status(204).end();
 };
 
+const findByQuery = async (req, res) => {
+  const { q } = req.query;
+  const newQuery = q ? `%${q}%` : '%%';
+  const blogPosts = await blogPostsService.findByQuery(newQuery);
+  return res.status(200).json(blogPosts);
+};
+
 module.exports = {
   create,
   findAll,
   findByPk,
   update,
   destroy,
+  findByQuery,
 };
