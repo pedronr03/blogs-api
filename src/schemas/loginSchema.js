@@ -14,4 +14,6 @@ const loginSchema = Joi.object().keys({
   }),
 });
 
-module.exports = loginSchema;
+module.exports = {
+  loginSchema,
+};

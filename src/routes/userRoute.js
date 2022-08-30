@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const usersController = require('../controllers/usersController');
-const authLogin = require('../middlewares/authLogin');
+const authCreateUser = require('../middlewares/authCreateUser');
 
 const route = Router();
 
-route.post('/', authLogin, usersController.login);
+route.post('/', authCreateUser, usersController.create);
 
 module.exports = route;

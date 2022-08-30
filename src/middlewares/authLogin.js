@@ -1,5 +1,5 @@
 const CustomError = require('../errors/CustomError');
-const loginSchema = require('../schemas/loginSchema');
+const { loginSchema } = require('../schemas/loginSchema');
 
 const authLogin = (req, _res, next) => {
   const { error } = loginSchema.validate(req.body);
