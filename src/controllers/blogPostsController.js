@@ -26,9 +26,17 @@ const update = async (req, res) => {
   return res.status(200).json(newBlogPost);
 };
 
+const destroy = async (req, res) => {
+  const { authorization: token } = req.headers;
+  const { id } = req.params;
+  await blogPostsService.destroy({ token, id });
+  return res.status(204).end();
+};
+
 module.exports = {
   create,
   findAll,
   findByPk,
   update,
+  destroy,
 };

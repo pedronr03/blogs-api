@@ -66,9 +66,19 @@ const update = async ({ title, content, id, token }) => {
   return findByPk(id);
 };
 
+const destroy = async ({ id, token }) => {
+  const { email } = jwt.decode(token);
+  const user = await User.findOne({ where: { email } });
+  const blogPost = await BlogPost.findByPk(id);
+  if (!blogPost) throw new CustomError(404, 'NOT_FOUND', 'Post does not exist');
+  if (user.id !== blogPost.userId) throw new CustomError(401, 'UNAUTHORIZED', 'Unauthorized user');
+  await BlogPost.destroy({ where: { id } });
+};
+
 module.exports = {
   create,
   findAll,
   findByPk,
   update,
+  destroy,
 };

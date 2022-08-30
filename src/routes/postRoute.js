@@ -10,6 +10,8 @@ route.get('/:id', authToken, blogPostsController.findByPk);
 
 route.put('/:id', authToken, authUpdatePost, blogPostsController.update);
 
+route.delete('/:id', authToken, blogPostsController.destroy);
+
 route.get('/', authToken, blogPostsController.findAll);
 
 route.post('/', authToken, authCreatePost, blogPostsController.create);
