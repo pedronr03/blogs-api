@@ -8,6 +8,19 @@ const create = async (req, res) => {
   return res.status(201).json(blogPost);
 };
 
+const findAll = async (_req, res) => {
+  const blogPosts = await blogPostsService.findAll();
+  return res.status(200).json(blogPosts);
+};
+
+const findByPk = async (req, res) => {
+  const { id } = req.params;
+  const blogPost = await blogPostsService.findByPk(id);
+  return res.status(200).json(blogPost);
+};
+
 module.exports = {
   create,
+  findAll,
+  findByPk,
 };

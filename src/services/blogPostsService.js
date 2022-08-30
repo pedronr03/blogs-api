@@ -36,6 +36,27 @@ const create = async ({ title, content, categoryIds, email }) => {
   }
 };
 
+const findAll = async () => {
+  const blogPosts = await BlogPost
+    .findAll({ include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' }],
+    });
+  return blogPosts;
+};
+
+const findByPk = async (id) => {
+  const blogPost = await BlogPost
+  .findByPk(id, { include: [
+    { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories' }],
+  });
+  if (!blogPost) throw new CustomError(404, 'NOT_FOUND', 'Post does not exist');
+  return blogPost;
+};
+
 module.exports = {
   create,
+  findAll,
+  findByPk,
 };

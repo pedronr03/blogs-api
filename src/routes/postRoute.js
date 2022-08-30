@@ -5,6 +5,10 @@ const authToken = require('../middlewares/authToken');
 
 const route = Router();
 
+route.get('/:id', authToken, blogPostsController.findByPk);
+
+route.get('/', authToken, blogPostsController.findAll);
+
 route.post('/', authToken, authCreatePost, blogPostsController.create);
 
 module.exports = route;
