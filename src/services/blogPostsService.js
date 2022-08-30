@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const jwt = require('../helpers/jwt');
 const config = require('../database/config/config');
 
 const sequelize = new Sequelize(config.development);
@@ -55,8 +56,19 @@ const findByPk = async (id) => {
   return blogPost;
 };
 
+const update = async ({ title, content, id, token }) => {
+  const { email } = jwt.decode(token);
+  const user = await User.findOne({ where: { email } });
+  const blogPost = await BlogPost.findByPk(id);
+  if (!blogPost) throw new CustomError(404, 'NOT_FOUND', 'Post does not exist');
+  if (user.id !== blogPost.userId) throw new CustomError(401, 'UNAUTHORIZED', 'Unauthorized user');
+  await BlogPost.update({ title, content }, { where: { id } });
+  return findByPk(id);
+};
+
 module.exports = {
   create,
   findAll,
   findByPk,
+  update,
 };

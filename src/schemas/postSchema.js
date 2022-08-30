@@ -22,6 +22,18 @@ const postSchema = Joi.object().keys({
   }),
 });
 
+const updatePostSchema = Joi.object().keys({
+  title: Joi.string().required().messages({
+    'string.empty': STRING_EMPTY,
+    'any.required': STRING_REQUIRED,
+  }),
+  content: Joi.string().required().messages({
+    'string.empty': STRING_EMPTY,
+    'any.required': STRING_REQUIRED,
+  }),
+});
+
 module.exports = {
   postSchema,
+  updatePostSchema,
 };

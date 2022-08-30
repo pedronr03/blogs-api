@@ -19,8 +19,16 @@ const findByPk = async (req, res) => {
   return res.status(200).json(blogPost);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { authorization: token } = req.headers;
+  const newBlogPost = await blogPostsService.update({ token, id, ...req.body });
+  return res.status(200).json(newBlogPost);
+};
+
 module.exports = {
   create,
   findAll,
   findByPk,
+  update,
 };
