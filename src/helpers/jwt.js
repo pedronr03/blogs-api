@@ -13,12 +13,12 @@ const sign = (data) => {
   return token;
 };
 
-const verify = (token) => {
-  const decode = jwt.decode(token, JWT_SECRET);
-  return !!decode;
+const decode = (token) => {
+  const decodeToken = jwt.decode(token, JWT_SECRET);
+  return decodeToken;
 };
 
 module.exports = {
   sign,
-  verify,
+  decode,
 };
