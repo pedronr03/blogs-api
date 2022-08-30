@@ -28,9 +28,15 @@ const findByPk = async (id) => {
   return user;
 };
 
+const destroy = async (token) => {
+  const { email } = jwt.decode(token);
+  await User.destroy({ where: { email } });
+};
+
 module.exports = {
   login,
   create,
   findByPk,
   findAll,
+  destroy,
 };

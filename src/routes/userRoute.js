@@ -7,6 +7,8 @@ const route = Router();
 
 route.get('/:id', authToken, usersController.findByPk);
 
+route.delete('/:id', authToken, usersController.destroy);
+
 route.get('/', authToken, usersController.findAll);
 
 route.post('/', authCreateUser, usersController.create);

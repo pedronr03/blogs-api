@@ -21,9 +21,16 @@ const findByPk = async (req, res) => {
   return res.status(200).json(user);
 };
 
+const destroy = async (req, res) => {
+  const { authorization: token } = req.headers;
+  await usersService.destroy(token);
+  return res.status(204).end();
+};
+
 module.exports = {
   login,
   create,
   findByPk,
   findAll,
+  destroy,
 };
