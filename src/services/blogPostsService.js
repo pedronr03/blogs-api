@@ -25,7 +25,7 @@ const create = async ({ title, content, categoryIds, email }) => {
     const { id: userId } = await User.findOne({ where: { email } });
     const payloadBlogPost = { title, content, userId, published: Date.now(), updated: Date.now() };
     const newBlogPost = await BlogPost.create(payloadBlogPost, { transaction });
-    const postId = newBlogPost.null;
+    const postId = newBlogPost.id;
     const newPostCategories = categoryIds
       .map((categoryId) => PostCategory.create({ categoryId, postId }, { transaction }));
     await Promise.all(newPostCategories);
