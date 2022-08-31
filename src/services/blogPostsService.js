@@ -23,14 +23,12 @@ const create = async ({ title, content, categoryIds, email }) => {
   const transaction = await sequelize.transaction();
   try {
     const { id: userId } = await User.findOne({ where: { email } });
-    const payloadBlogPost = { title, content, userId, published: Date.now(), updated: Date.now() };
+    const payloadBlogPost = { title, content, userId, updated: Date.now(), published: Date.now() };
     const newBlogPost = await BlogPost.create(payloadBlogPost, { transaction });
-    const postId = newBlogPost.id;
     const newPostCategories = categoryIds
-      .map((categoryId) => PostCategory.create({ categoryId, postId }, { transaction }));
-    await Promise.all(newPostCategories);
+      .map((categoryId) => ({ categoryId, postId: newBlogPost.id }));
+    await PostCategory.bulkCreate(newPostCategories, { transaction });
     transaction.commit();
-    newBlogPost.dataValues.id = postId;
     return newBlogPost;
   } catch (error) {
     transaction.rollback();
@@ -77,22 +75,17 @@ const destroy = async ({ id, token }) => {
 };
 
 const findByQuery = async (query) => {
-  const blogPostsByTitle = await BlogPost
+  const blogPosts = await BlogPost
     .findAll({
-      where: { title: { [Operator.like]: query } },
+      where: { [Operator.or]: [
+        { title: { [Operator.like]: query } },
+        { content: { [Operator.like]: query } },
+      ] },
       include: [
         { model: User, as: 'user', attributes: { exclude: ['password'] } },
         { model: Category, as: 'categories' }],
       });
-  if (blogPostsByTitle.length) return blogPostsByTitle;
-  const blogPostsByContent = await BlogPost
-    .findAll({
-      where: { content: { [Operator.like]: query } },
-      include: [
-        { model: User, as: 'user', attributes: { exclude: ['password'] } },
-        { model: Category, as: 'categories' }],
-      });
-  return blogPostsByContent;
+  return blogPosts;
 };
 
 module.exports = {
