@@ -13,7 +13,7 @@ const create = async ({ displayName, email, password, image }) => {
   const userAlreadyExists = await User.findOne({ where: { email } });
   if (userAlreadyExists) throw new CustomError(409, 'CONFLICT', 'User already registered');
   await User.create({ displayName, email, password, image });
-  const token = jwt.sign({ displayName, email, image });
+  const token = jwt.sign({ email });
   return token;
 };
 
