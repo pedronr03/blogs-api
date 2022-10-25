@@ -13,5 +13,6 @@ docker compose up -d
 - [Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 - [Express](https://expressjs.com/pt-br/)
 - [Sequelize](https://sequelize.org/)
+- [JWT Auth](https://jwt.io/)
 ### Developed by:
 - [Pedro Reis](https://www.linkedin.com/in/pedroreisalves/)
