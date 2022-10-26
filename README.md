@@ -5,7 +5,7 @@ This project is a REST API and was developed with the aim of managing a social n
 - Clone the repository.
 - Run the following commands:
 ```
-docker compose up -d
+docker-compose up -d
 ```
 ### Built with:
 - [Docker](https://www.docker.com/)
