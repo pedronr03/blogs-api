@@ -12,6 +12,7 @@ docker-compose up -d
 - [Node.js](https://nodejs.org/en/)
 - [Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 - [Express](https://expressjs.com/pt-br/)
+- [MySQL](https://www.mysql.com/)
 - [Sequelize](https://sequelize.org/)
 - [JWT Auth](https://jwt.io/)
 ### Developed by:
